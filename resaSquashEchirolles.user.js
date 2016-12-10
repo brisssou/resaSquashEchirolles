@@ -4,7 +4,7 @@
 // @version      0.1
 // @description  try to take over the world!
 // @author       You
-// @match        http://pro.solution-rendez-vous.com/lebreaksportif/rendez-vous/index.php
+// @match        http://pro.solution-rendez-vous.com/lebreaksportif/rendez-vous/index.php*
 // @update       https://gitlab.criteois.com/b.laurencin/resaSquashEchirolles/raw/master/resaSquashEchirolles.user.js
 // @grant        none
 // ==/UserScript==
@@ -110,16 +110,22 @@ var idclient = -1;
                 return a.localeCompare(b);
             });
             $.each(foundSlotsDay, function(indx, slotsDay) {
-                $.each(foundSlots[slotsDay], function(idx, slot) {
-                    var anchorID = slot.dj + slot.idp.replace(':','');
-                    $('<p><a href="#" id="' + anchorID +
-                      '" class="selection-horaire-perso" data-date="' + slot.dj +
-                      '" data-time="' + slot.idp + ':00" data-agenda="' + slot.ida +
-                      '" data-agenda-origine="' + slot.idao + '">' +
-                      slot.nj + ' ' + slot.idp + ' terrain ' + slot.ida + ' ' + slot.dj + '</a></p>')
-                        .appendTo($('#zone_horaire'));
-                    $('#'+anchorID).bind('click', book);
-                });
+                var hideSharp = foundSlots[slotsDay].length > 2;
+                $.each(foundSlots[slotsDay], function(_hideSharp) {
+                    return function(idx, slot) {
+                        if (_hideSharp && slot.idp.endsWith('00')) {
+                            return;
+                        }
+                        var anchorID = slot.dj + slot.idp.replace(':','');
+                        $('<p><a href="#" id="' + anchorID +
+                          '" class="selection-horaire-perso" data-date="' + slot.dj +
+                          '" data-time="' + slot.idp + ':00" data-agenda="' + slot.ida +
+                          '" data-agenda-origine="' + slot.idao + '">' +
+                          slot.nj + ' ' + slot.idp + ' terrain ' + slot.ida + ' ' + slot.dj + '</a></p>')
+                            .appendTo($('#zone_horaire'));
+                        $('#'+anchorID).bind('click', book);
+                    };
+                }(hideSharp));
                 $('<hr/>').appendTo($('#zone_horaire'));
             });
         }
