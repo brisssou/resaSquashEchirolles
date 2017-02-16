@@ -5,7 +5,7 @@
 // @description  try to take over the world!
 // @author       You
 // @match        http://pro.solution-rendez-vous.com/lebreaksportif/rendez-vous/index.php*
-// @update       https://gitlab.criteois.com/b.laurencin/resaSquashEchirolles/raw/master/resaSquashEchirolles.user.js
+// @update       https://github.com/brisssou/resaSquashEchirolles/raw/master/resaSquashEchirolles.user.js
 // @grant        none
 // ==/UserScript==
 
